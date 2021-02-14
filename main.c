@@ -8,7 +8,7 @@
 #include <jack/midiport.h>
 
 #include "session.h"
-#include "sinus.h"
+#include "common.h"
 
 static int process(jack_nframes_t nframes, void *arg) {
 
@@ -58,17 +58,11 @@ int main(void) {
     // initialize the session
     session_init(&session, jack_client);
 
-    // initialize four synths, add them to the session
-    struct sinus_data *sinus;
-    struct synth_data synth_tmp;
-    for (int i=0; i<4; i++) {
-        sinus = malloc(sizeof(struct sinus_data));
-        sinus_init(sinus, session.sr, session.bs, i+1);
-        synth_tmp.data = sinus;
-        synth_tmp.process = sinus_process;
-        synth_tmp.get_buffer = sinus_get_buffer;
-        session_add_synth(&session, &synth_tmp);
-    }
+    // add synths to session
+    add_bong_to_session(&session, 1);
+    add_sinus_to_session(&session, 2);
+    add_sinus_to_session(&session, 3);
+    add_sinus_to_session(&session, 4);
 
     // set jack process callback
 	jack_set_process_callback(jack_client, process, &session);

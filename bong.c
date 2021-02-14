@@ -5,10 +5,10 @@
 
 #include <jack/midiport.h>
 
-#include "sinus.h"
+#include "bong.h"
 #include "common.h"
 
-void sinus_init(struct sinus_data *data, jack_nframes_t sr, jack_nframes_t bs, uint8_t channel) {
+void bong_init(struct bong_data *data, jack_nframes_t sr, jack_nframes_t bs, uint8_t channel) {
 
     data->sr = sr;
     data->bs = bs;
@@ -16,16 +16,16 @@ void sinus_init(struct sinus_data *data, jack_nframes_t sr, jack_nframes_t bs, u
     data->chan = channel;
 
     data->phasor = 0.0;
-    data->freq= 220.0;
+    data->freq= 110.0;
     data->ampl = 0.;
 
     data->buf = (jack_default_audio_sample_t*) malloc(data->bs * sizeof(jack_default_audio_sample_t));
 
 }
 
-void sinus_process(void *data_vp, void *midibuf) {
+void bong_process(void *data_vp, void *midibuf) {
 
-    struct sinus_data *data = (struct sinus_data*) data_vp;
+    struct bong_data *data = (struct bong_data*) data_vp;
 
     // midi state machine init
 
@@ -46,6 +46,7 @@ void sinus_process(void *data_vp, void *midibuf) {
 
         // amplitude decay
         data->ampl /= 1.0001;
+        data->freq /= 1.0001;
 
         // MIDI state machine
         // this needs to be a while loop to handle cases where there are
@@ -56,7 +57,7 @@ void sinus_process(void *data_vp, void *midibuf) {
             if ( ((mev.buffer[0] & 0xf0) == 0x90)
                     && ((mev.buffer[0] & 0x0f) == data->chan - 1)) {
                 data->ampl = 0.5;
-                data->freq = mtof(mev.buffer[1]);
+                data->freq = mtof(mev.buffer[1] - 24);
             }
 
             // advance to next midi event
@@ -78,9 +79,9 @@ void sinus_process(void *data_vp, void *midibuf) {
 
 }
 
-jack_default_audio_sample_t *sinus_get_buffer(void *data_vp) {
+jack_default_audio_sample_t *bong_get_buffer(void *data_vp) {
 
-    return ((struct sinus_data*) data_vp)->buf;
+    return ((struct bong_data*) data_vp)->buf;
 
 }
 
