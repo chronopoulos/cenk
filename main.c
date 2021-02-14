@@ -47,8 +47,6 @@ int main(void) {
 
     jack_client_t *jack_client;
     struct session_data session;
-    struct sinus_data sinus;
-    struct synth_data synth_tmp;
 
     // open jack client
     jack_client = jack_client_open("cenk", JackNoStartServer, NULL);
@@ -60,12 +58,17 @@ int main(void) {
     // initialize the session
     session_init(&session, jack_client);
 
-    // initialize the synths, add them to the session
-    sinus_init(&sinus, session.sr, session.bs);
-    synth_tmp.data = &sinus;
-    synth_tmp.process = sinus_process;
-    synth_tmp.get_buffer = sinus_get_buffer;
-    session_add_synth(&session, &synth_tmp);
+    // initialize four synths, add them to the session
+    struct sinus_data *sinus;
+    struct synth_data synth_tmp;
+    for (int i=0; i<4; i++) {
+        sinus = malloc(sizeof(struct sinus_data));
+        sinus_init(sinus, session.sr, session.bs, i+1);
+        synth_tmp.data = sinus;
+        synth_tmp.process = sinus_process;
+        synth_tmp.get_buffer = sinus_get_buffer;
+        session_add_synth(&session, &synth_tmp);
+    }
 
     // set jack process callback
 	jack_set_process_callback(jack_client, process, &session);

@@ -14,10 +14,12 @@ float mtof(int m) {
 
 }
 
-void sinus_init(struct sinus_data *data, jack_nframes_t sr, jack_nframes_t bs) {
+void sinus_init(struct sinus_data *data, jack_nframes_t sr, jack_nframes_t bs, uint8_t channel) {
 
     data->sr = sr;
     data->bs = bs;
+
+    data->chan = channel;
 
     data->phasor = 0.0;
     data->freq= 220.0;
@@ -43,6 +45,7 @@ void sinus_process(void *data_vp, void *midibuf) {
         mev_loaded = true;
     }
 
+
     // processing loop
 
     for (size_t i=0; i<data->bs; i++) {
@@ -51,11 +54,14 @@ void sinus_process(void *data_vp, void *midibuf) {
         data->ampl /= 1.0001;
 
         // MIDI state machine
-        if (mev_loaded && (i == mev.time)) {
+        // this needs to be a while loop to handle cases where there are
+        // multiple midi events with the same timestep
+        while (mev_loaded && (i == mev.time)) {
 
             // if note-on, maximize amplitude, and set frequency
-            if ((mev.buffer[0] & 0xf0) == 0x90) {
-                data->ampl = 1.;
+            if ( ((mev.buffer[0] & 0xf0) == 0x90)
+                    && ((mev.buffer[0] & 0x0f) == data->chan - 1)) {
+                data->ampl = 0.5;
                 data->freq = mtof(mev.buffer[1]);
             }
 
