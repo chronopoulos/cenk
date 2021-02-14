@@ -32,6 +32,13 @@ void synth_data_init(struct synth_data *data) {
 
 }
 
+float mtof(int m) {
+
+    // MIDI note to frequency (in Hz)
+    return 440. * pow(2, (m-69)/12.);
+
+}
+
 static int process(jack_nframes_t nframes, void *arg) {
 
     struct synth_data *data = arg;
@@ -62,7 +69,7 @@ static int process(jack_nframes_t nframes, void *arg) {
             // if note-on, maximize amplitude
             if ((mev.buffer[0] & 0xf0) == 0x90) {
                 data->ampl = 1.;
-                data->freq = mev.buffer[1] * 3.; // total hack
+                data->freq = mtof(mev.buffer[1]);
             }
 
             // advance to next midi event (mev)
