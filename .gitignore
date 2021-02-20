@@ -1,2 +1,7 @@
 cenk
 *.swp
+build/*
+bin/*
+run
+.qmake.stash
+Makefile

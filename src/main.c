@@ -38,7 +38,6 @@ static int process(jack_nframes_t nframes, void *arg) {
         }
     }
 
-
     return 0;
 
 }
