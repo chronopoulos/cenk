@@ -65,7 +65,7 @@ jack_default_audio_sample_t* KickSynth::process(jack_nframes_t nframes, void *mi
         // audio rate stuff
         phasor += freq / sr;
         if (phasor > 1.0) phasor = 0.;
-		buf[i] = ampl * sin(2*M_PI * phasor);
+		buf[i] = vol * ampl * sin(2*M_PI * phasor);
 
     }
 

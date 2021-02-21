@@ -54,7 +54,7 @@ jack_default_audio_sample_t* HatSynth::process(jack_nframes_t nframes, void *mid
         }
 
         // audio rate stuff
-        buf[i] = ampl * (2 * rand() / (float) RAND_MAX - 1.);
+        buf[i] = vol * ampl * (2 * rand() / (float) RAND_MAX - 1.);
 
     }
 

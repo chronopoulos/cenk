@@ -2,6 +2,7 @@
 #define SYNTH_H
 
 #include <jack/jack.h>
+#include <jack/ringbuffer.h>
 
 class Synth {
 
@@ -10,7 +11,10 @@ class Synth {
         Synth(uint8_t);
         void setAudioParams(jack_nframes_t, jack_nframes_t);
 
+        void handleCtrlMsgs(void);
         virtual jack_default_audio_sample_t* process(jack_nframes_t, void*) {return NULL;}
+
+        void setVolume(float);
 
     protected:
 
@@ -18,7 +22,10 @@ class Synth {
         jack_nframes_t bs;
         jack_default_audio_sample_t *buf;
 
-        uint8_t chan;   // midi channel (1-indexed)
+        jack_ringbuffer_t *rb;
+
+        uint8_t chan;   // midi channel [1,16]
+        float vol;      // volume [0,1]
 
 
 };

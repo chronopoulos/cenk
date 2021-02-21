@@ -3,7 +3,7 @@
 
 #include <jack/jack.h>
 
-#include "KickSynth.h"
+#include "Synth.h"
 
 #define NSYNTHS_MAX 16
 

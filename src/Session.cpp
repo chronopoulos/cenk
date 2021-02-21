@@ -57,6 +57,7 @@ void Session::process(jack_nframes_t nframes) {
     // then, iterate through the synths, adding their contributions to the outbuf
     jack_default_audio_sample_t *buf;   // tmp variable
     for (size_t i=0; i<nsynths; i++) {
+        synths[i]->handleCtrlMsgs();
         buf = synths[i]->process(nframes, inbuf);
         for(jack_nframes_t j=0; j<nframes; j++) {
             outbuf[j] += buf[j];

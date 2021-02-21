@@ -1,14 +1,12 @@
-#include <QDebug>
+#include "HatWidget.h"
 
-#include "KickWidget.h"
+HatWidget::HatWidget(HatSynth *hatSynth) : QFrame() {
 
-KickWidget::KickWidget(KickSynth *kickSynth) : QFrame() {
-
-    synth = kickSynth;
+    synth = hatSynth;
 
     layout = new QVBoxLayout();
 
-    nameLabel = new QLabel("kick");
+    nameLabel = new QLabel("hat");
 
     volSlider = new QSlider(Qt::Vertical);
     volSlider->setFocusPolicy(Qt::NoFocus);
@@ -22,7 +20,7 @@ KickWidget::KickWidget(KickSynth *kickSynth) : QFrame() {
 
 }
 
-void KickWidget::setVolume(int volume) {
+void HatWidget::setVolume(int volume) {
 
     synth->setVolume(volume / 99.);
 

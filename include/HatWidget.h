@@ -1,20 +1,20 @@
-#ifndef KICKWIDGET_H
-#define KICKWIDGET_H
+#ifndef HATWIDGET_H
+#define HATWIDGET_H
 
 #include <QFrame>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QSlider>
 
-#include "KickSynth.h"
+#include "HatSynth.h"
 
-class KickWidget : public QFrame {
+class HatWidget : public QFrame {
 
     Q_OBJECT
 
     public:
 
-        KickWidget(KickSynth*);
+        HatWidget(HatSynth*);
 
     private:
 
@@ -22,7 +22,7 @@ class KickWidget : public QFrame {
         QLabel *nameLabel;
         QSlider *volSlider;
 
-        KickSynth *synth;
+        HatSynth *synth;
 
     public slots:
 
