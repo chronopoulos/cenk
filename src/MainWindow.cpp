@@ -3,22 +3,21 @@
 #include "MainWindow.h"
 #include "KickWidget.h"
 #include "KickSynth.h"
+#include "HatSynth.h"
 
 MainWindow::MainWindow() : QWidget() {
 
     session = new Session();
     layout = new QHBoxLayout();
 
-    KickSynth *kickSynth1 = new KickSynth(1);
-    session->addSynth(kickSynth1);
+    KickSynth *kickSynth = new KickSynth(1);
+    session->addSynth(kickSynth);
 
-    KickSynth *kickSynth2 = new KickSynth(2);
-    session->addSynth(kickSynth2);
+    HatSynth *hatSynth = new HatSynth(2);
+    session->addSynth(hatSynth);
 
-    //KickWidget *kickWidget = new KickWidget(kickSynth);
+    //KickWidget *kickWidget = new KickWidget(kickSynth);   // TODO
 
-    layout->addWidget(new KickWidget());
-    layout->addWidget(new KickWidget());
     layout->addWidget(new KickWidget());
     layout->addWidget(new KickWidget());
 

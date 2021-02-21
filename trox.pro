@@ -40,11 +40,13 @@ SOURCES += KickWidget.cpp
 SOURCES += Session.cpp
 SOURCES += Synth.cpp
 SOURCES += KickSynth.cpp
+SOURCES += HatSynth.cpp
 
 HEADERS += MainWindow.h
 HEADERS += KickWidget.h
 HEADERS += Session.h
 HEADERS += Synth.h
 HEADERS += KickSynth.h
+HEADERS += HatSynth.h
 
 # vim:syntax=sh
