@@ -9,34 +9,6 @@ static int _process(jack_nframes_t nframes, void *arg) {
 
     session->process(nframes);
 
-    /*
-
-    void *inbuf;
-    jack_default_audio_sample_t *outbuf;
-
-    // get the session data
-
-    // get buffers
-    inbuf = jack_port_get_buffer(session->inport, nframes);
-    outbuf = (jack_default_audio_sample_t *) jack_port_get_buffer(session->outport, nframes);
-
-    // first, clear outbuf (necessary to prevent noisy AM)
-    for(int j=0; j<nframes; j++) {
-        outbuf[j] = 0.;
-    }
-
-    // then, iterate through the synths, adding their contributions to the outbuf
-    jack_default_audio_sample_t *buf;   // tmp variable
-    for (size_t i=0; i<session->nsynths; i++) {
-        session->synths[i].process(session->synths[i].data, inbuf);
-        buf = session->synths[i].get_buffer(session->synths[i].data);
-        for(int j=0; j<nframes; j++) {
-            outbuf[j] += buf[j];
-        }
-    }
-
-    */
-
     return 0;
 
 }
